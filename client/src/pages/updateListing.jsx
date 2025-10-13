@@ -312,8 +312,8 @@ export default function UpdateListing() {
                 <input
                   type="number"
                   id="discountPrice"
-                  min="1"
-                  max="0"
+                  min="0"
+                  max="10"
                   required
                   className="p-3 border border-gray-700 rounded-lg"
                   onChange={handleChange}
