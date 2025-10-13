@@ -80,7 +80,7 @@ export default function Profile() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      if (data.sucess === false) {
+      if (data.success === false) {
         useDispatch(updateUserFailure(error.message));
         return;
       }
@@ -270,9 +270,11 @@ export default function Profile() {
                 >
                   Delete
                 </button>
-                <button className="text-green-700 uppercase hover:underline">
-                  Edit
-                </button>
+                <Link to={`/update-listing/${listing._id}`}>
+                  <button className="text-green-700 uppercase hover:underline">
+                    Edit
+                  </button>
+                </Link>
               </div>
             </div>
           ))}
