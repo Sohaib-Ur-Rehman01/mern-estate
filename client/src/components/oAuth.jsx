@@ -3,6 +3,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
+import { app } from "../firebase";
 
 export default function OAuth() {
   const dispatch = useDispatch();
@@ -11,8 +12,14 @@ export default function OAuth() {
     try {
       const provider = new GoogleAuthProvider();
       const auth = getAuth(app);
+      // Add scopes for better user data
+      // provider.addScope("email");
+      // provider.addScope("profile");
+
       const result = await signInWithPopup(auth, provider);
       console.log(result);
+      // const idToken = await result.user.getIdToken();
+
       const res = await fetch("/api/auth/google", {
         method: "POST",
         headers: {
@@ -22,6 +29,7 @@ export default function OAuth() {
           name: result.user.displayName,
           email: result.user.email,
           photo: result.user.photoURL,
+          // idToken: idToken,
         }),
       });
       const data = await res.json();

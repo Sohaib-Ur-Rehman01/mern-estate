@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import userRouter from './routes/user.route.js'
 import authRouter from './routes/auth.route.js'
 import e from 'express'
+import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import listingRouter from './routes/listing.route.js'
 dotenv.config()
@@ -15,6 +16,12 @@ mongoose.connect(process.env.MONGO).then(() => {
 
 })
 const app = express()
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(express.json())
 app.use(cookieParser())
 app.listen(3000, () => {

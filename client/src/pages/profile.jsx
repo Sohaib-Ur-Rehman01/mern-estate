@@ -5,9 +5,9 @@ import {
   getDownloadURL,
   getStorage,
   uploadBytesResumable,
+  ref,
 } from "firebase/storage";
 import { app } from "../firebase";
-import React from "react";
 import { Link } from "react-router-dom";
 import {
   updateUserStart,
@@ -65,7 +65,7 @@ export default function Profile() {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.id]: e.target.value,
+      type: [e.target.id],
     });
   };
   const handleSubmit = async (e) => {
@@ -136,7 +136,7 @@ export default function Profile() {
           className="rounded-full h-24 w-24 object-cover cursor-pointer self-center"
           src={formData.avatar || currentUser.avatar}
           alt="profile"
-          onClick={() => file.current.click()}
+          onClick={() => fileRef.current.click()}
         />
         <p className="text-sm self-center">
           {fileUploadError ? (
