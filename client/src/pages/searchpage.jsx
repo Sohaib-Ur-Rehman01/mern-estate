@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ListingItem from "../components/listingItem";
 
 export default function SearchPage() {
   const navigate = useNavigate();
@@ -14,7 +15,6 @@ export default function SearchPage() {
   });
   const [loading, setLoading] = useState(false);
   const [listing, setListing] = useState(null);
-  console.log("====================>listing", listing);
 
   console.log(sidebardata);
   useEffect(() => {
@@ -203,6 +203,24 @@ export default function SearchPage() {
       </div>
       <div className="text-3xl font-semibold border-b p-3 text-slate-700 mt-5">
         <h1>Listings Results</h1>
+      </div>
+      <div
+        className="p-7 flex flex-wrap
+       gap-3"
+      >
+        {!loading && listing?.length === 0 && (
+          <p className="text-xl text-slate-700">No listing found!</p>
+        )}
+        {loading && (
+          <p className="text-xl text-slate-700 text-center w-full">
+            Loading...
+          </p>
+        )}
+        {!loading &&
+          listing &&
+          listing.map((listing) => (
+            <ListingItem key={listing._id} listing={listing} />
+          ))}
       </div>
     </div>
   );
