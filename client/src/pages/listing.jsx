@@ -145,7 +145,7 @@ function Listing() {
                 {listing.furnished ? "Furnished" : "Not Furnished"}
               </li>
             </ul>
-            {currentUser &&
+            {/* {currentUser &&
               listing.userRef?.toString() !== currentUser?._id.toString() &&
               !contact && (
                 <button
@@ -155,7 +155,16 @@ function Listing() {
                   Contact Landlord
                 </button>
               )}
-            {contact && <Contact userRef={listing.userRef} listing={listing} />}
+            {contact && <Contact userRef={listing.userRef} listing={listing} />} */}
+            {currentUser && listing.userRef !== currentUser._id && !contact && (
+              <button
+                onClick={() => setContact(true)}
+                className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3"
+              >
+                Contact landlord
+              </button>
+            )}
+            {contact && <Contact listing={listing} />}
           </div>
         </>
       )}
