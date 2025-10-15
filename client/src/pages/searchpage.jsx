@@ -15,6 +15,7 @@ export default function SearchPage() {
   });
   const [loading, setLoading] = useState(false);
   const [listing, setListing] = useState(null);
+  const [showMore, setShowMore] = useState(false);
 
   console.log(sidebardata);
   useEffect(() => {
@@ -47,9 +48,15 @@ export default function SearchPage() {
     }
     const fetchListing = async () => {
       setLoading(true);
+      setShowMore(false);
       const searchQuery = urlParams.toString();
       const res = await fetch(`/api/listing/get?${searchQuery}`);
       const data = await res.json();
+      if (data.length > 8) {
+        setShowMore(true);
+      } else {
+        setShowMore(false);
+      }
       setListing(data);
       setLoading(false);
     };
@@ -98,6 +105,19 @@ export default function SearchPage() {
     urlParams.set("order", sidebardata.order);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
+  };
+  const onShowMoreClick = async () => {
+    const numberOfListings = listing.length;
+    const startIndex = numberOfListings;
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("startIndex", startIndex);
+    const searchQuery = urlParams.toString();
+    const res = await fetch(`/api/listing/get?${searchQuery}`);
+    const data = await res.json();
+    if (data.length < 9) {
+      setShowMore(false);
+    }
+    setListing([...listing, ...data]);
   };
   return (
     <div className="flex flex-col md:flex-row md:min-h-screen">
@@ -221,6 +241,16 @@ export default function SearchPage() {
           listing.map((listing) => (
             <ListingItem key={listing._id} listing={listing} />
           ))}
+
+        {showMore && console.log("show more trueeee")}
+        {showMore && (
+          <button
+            onClick={onShowMoreClick}
+            className="text-green-700 hover:underline p-7 text-center w-full"
+          >
+            Show More
+          </button>
+        )}
       </div>
     </div>
   );

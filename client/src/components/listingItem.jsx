@@ -5,11 +5,14 @@ import { list } from "firebase/storage";
 import { MdLocationOn } from "react-icons/md";
 export default function ListingItem({ listing }) {
   return (
-    <div className="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-l-lg w-full sm:w-[330px]">
+    <div className="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-l-lg w-full sm:w-[330px] ">
       <Link to={`/listing/${listing._id}`}>
         {console.log(listing)}
         <img
-          src={listing.imageUrls[0]}
+          src={
+            listing.imageUrls[0] ||
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvk9mqyIP8p5_oOnCQjUvoWDNaFjiZcLWxQA&s"
+          }
           alt="listing-cover"
           className="h-[320px] sm:h-[220px] w-full object-cover hover:scale-105 transition-scale duration-300 "
         />
@@ -30,6 +33,18 @@ export default function ListingItem({ listing }) {
               : listing.regularPrice.toLocaleString("en-US")}
             {listing.type === "rent" && " / month"}
           </p>
+          <div className="text-slate-700 flex gap-4">
+            <div className="font-bold text-xs">
+              {listing.bedrooms > 1
+                ? `${listing.bedrooms} Beds`
+                : `${listing.bedrooms} Bed`}
+            </div>
+            <div className="font-bold text-xs">
+              {listing.bathrooms > 1
+                ? `${listing.bathrooms} Baths`
+                : `${listing.bathrooms} Bath`}
+            </div>
+          </div>
         </div>
       </Link>
     </div>
